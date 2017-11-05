@@ -8,17 +8,56 @@ The library can be used in a Console program as well as any other Visual C++ pro
 Tutorial
 --------------
 
-### 1. Simple curve
-![ex1](img/eggp-export-ex1.png)
-
-Include the header file `eggplot.h` and assume __x__ and __t__ are `vector<double>` of the same length:
+### 1. The First Example
+![ex1](img/ex1_plot.png)
 
 ```
-eggp::Eggplot curvePlot; 
+#include <Windows.h>
+#include <cmath>
+#include "MatPlot.h"
 
-curvePlot.plot({t,x});
-curvePlot.exec();
+using namespace MatPlot;
+int main()
+{
+	double x[5]{ 1,2,3,4,5 };
+	double y[5]{ 1,3,2,4,3 };
+	int N{ 5 };
+	MatPlotInit();
+	plot(x, y, N);
+	Sleep(60000);
+	MatPlotClose();
+	return 0;
+}
 ```
+
+
+```
+#include <Windows.h>
+#include <cmath>
+#include "MatPlot.h"
+
+using namespace MatPlot;
+int main()
+{
+	const int N{ 100 };
+	const double pi{ 3.1415926 };
+	double x[N]{};
+	double y[N]{};
+	for (int i{}; i < N; i++)
+	{
+		x[i] = 2 * pi / (N - 1) * i;
+		y[i] = sin(x[i]);
+	}
+
+	MatPlotInit();
+	plot(x, y, N);
+	xticks(0, 6.2, 32, 0, 5, 1);
+	Sleep(100000);
+	MatPlotClose();
+	return 0;
+}
+```
+
 
 The code above will plot __x__ against __t__ with default labels for both axes.
 The function call `.exec()` must be the last command and object initialization `eggp::Eggplot objectName` must be the first. 
