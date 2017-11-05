@@ -3,9 +3,9 @@ MatPlot
 
 a Visual C++ library that allows you to plot just as in Matlab.
 
-The library can be used in a Console program as well as any other Visual C++ program. To use MatPlot, you just need to include MatPlot.h, set the linker to input MatPlot.lib and copy MatPlot.dll to your project folder. For a detailed tutorial on how to do this, please read the wiki.
+Click [here](http://littleshi.cn/blog/MatPlot_Use/ "Use MatPlot") for the Chinese page of this project. The library can be used in a Console program as well as any other Visual C++ program. To use MatPlot, you just need to include `MatPlot.h`, set the linker to input `MatPlot.lib` and copy `MatPlot.dll` to your project folder. For a detailed tutorial on how to do this in Visual Studio 2017, please read the wiki.
 
-Tutorial
+User's Guide
 --------------
 
 ### 1. The First Example
@@ -29,7 +29,7 @@ int main()
 	return 0;
 }
 ```
-
+Note that every function in MatPlot has namespace `MatPlot`. Use `MatPlotInit()` and `MatPlotClose()` to initialize and close MatPlot. They can be used only once in a program, every MatPlot function must be invoked between `MatPlotInit()` and `MatPlotClose()`.
 
 ```
 #include <Windows.h>
