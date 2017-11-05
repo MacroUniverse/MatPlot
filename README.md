@@ -47,9 +47,29 @@ Note that the color has become orange now.
 `figure(int FigNo = -1);`<br>
 In the default case, `figure()` will number the dialogs starting from one. If there is a positive `FigNo` input, figure dialog with number (FigNo + 1) will be generated (since C++ is 0 based). `figure()` can also be used to specify the current figure for functions such as `plot()` and `scatter()` to work on.
 
-`close()` function is used to close a figure, the prototype is<br>
+`close()` function closes a figure, the prototype is<br>
 `close(int FigNo = -1);`<br>
 In the default case, it will close the current figure. When used with an argument, it will close the (FigNo + 1)th figure. In both cases, if the current figure is closed, the current figure will become the next opened figure with a larger number, if there is none, an opened figure with a smaller number is used. Closing a figure by clicking X button is the same as using a `close()` function.
+
+`close_all()` function closes all opened figures.
+
+`clf()` (clean figure) function is used to clean the current figure, and set the axis range from 0 to 1.
+
+`axis()` function is used to change the axis range, its prototype is<br>
+`axis(double xmin, double xmax, double ymin, double ymax);`<br>
+where the arguments are the minimum and maximum values for x and y axis.
+
+`axis_auto()` function sets the axis to adjust itself automatically (this is the default for new figures). If any data point in `plot()` or `scatter()` falls out of range, the axis will expand its range to include these points.
+
+`axis_manual()` function  sets the axis to only be adjusted manually.
+
+`xticks()` and `yticks()` function sets the axis ticks, the prototypes are both<br>
+`xticks(double tickmin, double tickmax, int Nticks = 26, int txtstart = 0, int txtspace = 5, int Ndigits = 2);`
+
+
+
+
+
 
 
 
