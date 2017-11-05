@@ -35,6 +35,26 @@ Note that every function in MatPlot has namespace `MatPlot`. Use `MatPlotInit()`
 `plot(double *px, double *py, int N, char color = 'a');`<br>
 where `px` and `py` could be array names or pointers, `N` is the number of elements in `px` and `py`, `color` is a single character indicating the color. The default value `a` means automatic, which means the color will change every time `plot()` or `scatter()` is used. Like in Matlab, the possible `color` values can be 'r'(red), 'g'(green), 'b'(blue), 'y'(yellow), 'm'(magenta), 'c'(cyan), 'k'(black), 'w'(white). `plot()` always operate on the current figure, if there is none opened yet, figure1 will be created.
 
+`scatter()` function is used to scatter '+' shaped data points on a figure, its prototype is the same as `figure()`, you can add the following line under `plot(...);` in the above example. <br>
+`scatter(x, y, N);` <br>
+
+![ex1](img/ex1_mod.png)
+
+Note that the color has become orange now.
+
+`figure()` function is used to create new figure dialog, the prototype is<br>
+`figure(int FigNo = -1);`<br>
+In the default case, `figure()` will number the dialogs starting from one. If there is a positive `FigNo` input, figure dialog with number (FigNo + 1) will be generated (since C++ is 0 based). `figure()` can also be used to specify the current figure for functions such as `plot()` and `scatter()` to work on.
+
+`close()` function is used to close a figure, the prototype is<br>
+`close(int FigNo = -1);`<br>
+In the default case, it will close the current figure. When used with an argument, it will close the (FigNo + 1)th figure. In both cases, if the current figure is closed, the current figure will become the next opened figure with a larger number, if there is none, an opened figure with a smaller number is used. Closing a figure by clicking X button is the same as using a `close()` function.
+
+
+
+
+
+
 ```
 #include <Windows.h>
 #include <cmath>
