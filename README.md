@@ -36,14 +36,14 @@ Note that every function in MatPlot has namespace `MatPlot`. Use `MatPlotInit()`
 `plot(double *px, double *py, int N, char color = 'a');`<br>
 where `px` and `py` could be array names or pointers, `N` is the number of elements in `px` and `py`, `color` is a single character indicating the color. The default value `a` means automatic, which means the color will change every time `plot()` or `scatter()` is used. Like in Matlab, the possible `color` values can be 'r'(red), 'g'(green), 'b'(blue), 'y'(yellow), 'm'(magenta), 'c'(cyan), 'k'(black), 'w'(white). `plot()` always operate on the current figure, if there is none opened yet, figure1 will be created.
 
-`scatter()` function is used to scatter '+' shaped data points on a figure, its prototype is the same as `figure()`, you can add the following line under `plot(...);` in the above example. <br>
+`scatter()` function scatters '+' shaped data points on a figure, its prototype is the same as `figure()`, you can add the following line under `plot(...);` in the above example. <br>
 `scatter(x, y, N);` <br>
 
 ![ex1](img/ex1_mod.png)
 
 Note that the color has become orange now.
 
-`figure()` function is used to create new figure dialog, the prototype is<br>
+`figure()` function creates new figure dialog, the prototype is<br>
 `figure(int FigNo = -1);`<br>
 In the default case, `figure()` will number the dialogs starting from one. If there is a positive `FigNo` input, figure dialog with number (FigNo + 1) will be generated (since C++ is 0 based). `figure()` can also be used to specify the current figure for functions such as `plot()` and `scatter()` to work on.
 
@@ -53,9 +53,9 @@ In the default case, it will close the current figure. When used with an argumen
 
 `close_all()` function closes all opened figures.
 
-`clf()` (clean figure) function is used to clean the current figure, and set the axis range from 0 to 1.
+`clf()` (clean figure) function cleans the current figure, and set the axis range from 0 to 1.
 
-`axis()` function is used to change the axis range, its prototype is<br>
+`axis()` function changes the axis range, its prototype is<br>
 `axis(double xmin, double xmax, double ymin, double ymax);`<br>
 where the arguments are the minimum and maximum values for x and y axis.
 
@@ -64,17 +64,12 @@ where the arguments are the minimum and maximum values for x and y axis.
 `axis_manual()` function  sets the axis to only be adjusted manually.
 
 `xticks()` and `yticks()` function sets the axis ticks, the prototypes are both<br>
-`xticks(double tickmin, double tickmax, int Nticks = 26, int txtstart = 0, int txtspace = 5, int Ndigits = 2);`
+`xticks(double tickmin, double tickmax, int Nticks = 26, int txtstart = 0, int txtspace = 5, int Ndigits = 2);`<br>
+where `tickmin` and `tickmax` are the coordinates of ticks with minimum and maximum values, `Nticks` is the number of ticks. The longer ticks and text are displayed every `txtspace` ticks. The text has `Ndigits` digits (no scientific notation yet).
 
 
-
-
-
-
-
-
-
-
+### 2. The Second Example
+The coordinate arrangement is not as smart as that in Matlab yet. To demonstrate, let's plot a sine curve.
 
 ```
 #include <Windows.h>
@@ -102,4 +97,4 @@ int main()
 	return 0;
 }
 ```
-
+![ex2](img/ex2.png)
