@@ -1,5 +1,6 @@
 MatPlot
 =======
+![icon](img/icon.png)
 
 a Visual C++ library that allows you to plot just as in Matlab.
 
