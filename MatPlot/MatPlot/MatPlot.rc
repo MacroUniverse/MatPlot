@@ -1,0 +1,197 @@
+// Microsoft Visual C++ generated resource script.
+//
+#include "resource.h"
+
+#define APSTUDIO_READONLY_SYMBOLS
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 2 resource.
+//
+#include "afxres.h"
+
+/////////////////////////////////////////////////////////////////////////////
+#undef APSTUDIO_READONLY_SYMBOLS
+
+/////////////////////////////////////////////////////////////////////////////
+// English (United States) resources
+
+#if !defined(AFX_RESOURCE_DLL) || defined(AFX_TARG_ENU)
+LANGUAGE LANG_ENGLISH, SUBLANG_ENGLISH_US
+#pragma code_page(1252)
+
+#ifdef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// TEXTINCLUDE
+//
+
+1 TEXTINCLUDE 
+BEGIN
+    "resource.h\0"
+END
+
+2 TEXTINCLUDE 
+BEGIN
+    "#include ""afxres.h""\r\n"
+    "\0"
+END
+
+3 TEXTINCLUDE 
+BEGIN
+    "\r\n"
+    "\0"
+END
+
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Dialog
+//
+
+IDD_MAIN DIALOGEX 0, 0, 209, 236
+STYLE DS_SETFONT | DS_MODALFRAME | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU
+CAPTION "Control Panel"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+    DEFPUSHBUTTON   "OK",IDOK,97,214,50,14
+    PUSHBUTTON      "Cancel",IDCANCEL,152,214,50,14
+    LTEXT           "i",IDC_TI,34,27,9,9
+    LTEXT           "DataNo",IDC_TDATANO,23,44,24,9
+    EDITTEXT        IDC_DATANO,52,42,28,13,ES_AUTOHSCROLL
+    LTEXT           "CurrentFig",IDC_TCURRENTFIG,16,216,35,9
+    EDITTEXT        IDC_CURRENTFIG,56,215,28,13,ES_AUTOHSCROLL | WS_DISABLED
+    EDITTEXT        IDC_I,52,25,28,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_XMIN,13,75,28,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_XMAX,45,75,28,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_YMIN,77,75,28,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_YMAX,109,75,28,13,ES_AUTOHSCROLL
+    LTEXT           "xmin",IDC_TXMIN,19,64,24,9
+    LTEXT           "xmax",IDC_TXMAX,51,64,24,9
+    LTEXT           "ymin",IDC_TYMIN,83,64,24,9
+    LTEXT           "ymax",IDC_TYMAX,115,64,24,9
+    PUSHBUTTON      "axis(...)",IDC_AXIS,146,75,44,14
+    CONTROL         "autoaxis(...)",IDC_AUTOAXIS,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,143,62,52,12
+    PUSHBUTTON      "figure()",IDC_FIGURE,6,7,44,14
+    PUSHBUTTON      "clf()",IDC_CLF,54,7,44,14
+    PUSHBUTTON      "close()",IDC_CLOSE,103,7,44,14
+    PUSHBUTTON      "close_all()",IDC_CLOSE_ALL,152,7,44,14
+    PUSHBUTTON      "figure(i)",IDC_FIGURE_I,92,24,44,14
+    PUSHBUTTON      "close(i)",IDC_CLOSE_I,142,24,44,14
+    PUSHBUTTON      "plot(...)",IDC_PLOT,92,42,44,14
+    PUSHBUTTON      "scatter(...)",IDC_SCATTER,142,42,44,14
+    EDITTEXT        IDC_XTICKMIN,37,106,28,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_XTICKMAX,74,106,28,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_NXTICKS,111,106,28,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_XTXTSPACE,37,131,28,13,ES_AUTOHSCROLL
+    LTEXT           "xtickmin",IDC_TXTICKMIN,39,95,28,9
+    LTEXT           "xtickmax",IDC_TXTICKMAX,76,95,28,9
+    LTEXT           "Nxticks",IDC_TNXTICKS,114,95,27,9
+    LTEXT           "xtxtspace",IDC_TXTXTSPACE,36,120,32,9
+    PUSHBUTTON      "xticks(...)",IDC_XTICKS,124,125,39,14
+    EDITTEXT        IDC_NXDIGITS,73,131,28,13,ES_AUTOHSCROLL
+    LTEXT           "Nxdigits",IDC_TNXDIGITS,75,120,28,9
+    EDITTEXT        IDC_XTXTSTART,150,106,28,13,ES_AUTOHSCROLL
+    LTEXT           "xtxtstart",IDC_TXTXTSTART,150,95,29,9
+    GROUPBOX        "",IDC_STATIC,22,90,165,59
+    EDITTEXT        IDC_YTICKMIN,38,167,28,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_YTICKMAX,74,167,28,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_NYTICKS,112,167,28,13,ES_AUTOHSCROLL
+    EDITTEXT        IDC_YTXTSPACE,38,193,28,13,ES_AUTOHSCROLL
+    LTEXT           "ytickmin",IDC_TYTICKMIN,40,156,28,9
+    LTEXT           "ytickmax",IDC_TYTICKMAX,76,156,28,9
+    LTEXT           "Nyticks",IDC_TNYTICKS,114,156,27,9
+    LTEXT           "ytxtspace",IDC_TYTXTSPACE,36,182,32,9
+    PUSHBUTTON      "yticks(...)",IDC_YTICKS,124,187,39,14
+    EDITTEXT        IDC_NYDIGITS,74,193,28,13,ES_AUTOHSCROLL
+    LTEXT           "Nydigits",IDC_TNYDIGITS,76,182,28,9
+    EDITTEXT        IDC_YTXTSTART,150,167,28,13,ES_AUTOHSCROLL
+    LTEXT           "ytxtstart",IDC_TYTXTSTART,150,156,30,9
+    GROUPBOX        "",IDC_STATIC,22,151,165,59
+END
+
+IDD_PLOT DIALOGEX 0, 0, 267, 151
+STYLE DS_SETFONT | DS_FIXEDSYS | WS_MINIMIZEBOX | WS_MAXIMIZEBOX | WS_POPUP | WS_CAPTION | WS_SYSMENU | WS_THICKFRAME
+CAPTION "Dialog"
+FONT 8, "MS Shell Dlg", 400, 0, 0x1
+BEGIN
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// DESIGNINFO
+//
+
+#ifdef APSTUDIO_INVOKED
+GUIDELINES DESIGNINFO
+BEGIN
+    IDD_MAIN, DIALOG
+    BEGIN
+        LEFTMARGIN, 7
+        RIGHTMARGIN, 202
+        TOPMARGIN, 7
+        BOTTOMMARGIN, 229
+    END
+
+    IDD_PLOT, DIALOG
+    BEGIN
+        RIGHTMARGIN, 265
+        BOTTOMMARGIN, 150
+    END
+END
+#endif    // APSTUDIO_INVOKED
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// AFX_DIALOG_LAYOUT
+//
+
+IDD_MAIN AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+IDD_PLOT AFX_DIALOG_LAYOUT
+BEGIN
+    0
+END
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// Icon
+//
+
+// Icon with lowest ID value placed first to ensure application icon
+// remains consistent on all systems.
+IDI_MATPLOT             ICON                    "icon1.ico"
+
+
+/////////////////////////////////////////////////////////////////////////////
+//
+// String Table
+//
+
+STRINGTABLE
+BEGIN
+    IDS_APP_TITLE           "MatPlot"
+END
+
+#endif    // English (United States) resources
+/////////////////////////////////////////////////////////////////////////////
+
+
+
+#ifndef APSTUDIO_INVOKED
+/////////////////////////////////////////////////////////////////////////////
+//
+// Generated from the TEXTINCLUDE 3 resource.
+//
+
+
+/////////////////////////////////////////////////////////////////////////////
+#endif    // not APSTUDIO_INVOKED
+

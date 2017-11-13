@@ -1,0 +1,306 @@
+#include "stdafx.h"
+#include "MatPlot.h"
+#include "MatPlotDlg.h"
+#include "afxdialogex.h"
+#include "resource.h"
+
+IMPLEMENT_DYNAMIC(CMatPlotDlg, CDialogEx)
+
+CMatPlotDlg::CMatPlotDlg(CWnd* pParent /*=NULL*/)
+	: CDialogEx(IDD_MAIN, pParent)
+	, NFig{}, CurrentFig{}
+	, FigNo{}, DataNo{}
+	, edit_xmin{}, edit_xmax{}
+	, edit_ymin{}, edit_ymax{}
+{
+}
+
+CMatPlotDlg::~CMatPlotDlg()
+{
+}
+
+void CMatPlotDlg::DoDataExchange(CDataExchange* pDX)
+{
+	CDialogEx::DoDataExchange(pDX);
+	DDX_Text(pDX, IDC_DATANO, DataNo);
+	DDX_Text(pDX, IDC_I, FigNo);
+	DDX_Text(pDX, IDC_XMIN, edit_xmin);
+	DDX_Text(pDX, IDC_XMAX, edit_xmax);
+	DDX_Text(pDX, IDC_YMIN, edit_ymin);
+	DDX_Text(pDX, IDC_YMAX, edit_ymax);
+}
+
+BEGIN_MESSAGE_MAP(CMatPlotDlg, CDialogEx)
+	ON_MESSAGE(MATPLOT_CLOSE, close)
+	ON_MESSAGE(MATPLOT_CLF, clf)
+	ON_MESSAGE(MATPLOT_PLOT, plot)
+	ON_MESSAGE(MATPLOT_FIGURE, figure)
+	ON_MESSAGE(MATPLOT_SCATTER, scatter)
+	ON_MESSAGE(MATPLOT_HIDE_CONTROL, hide_control)
+	ON_MESSAGE(MATPLOT_SHOW_CONTROL, show_control)
+	ON_MESSAGE(MATPLOT_AXIS, axis)
+	ON_MESSAGE(MATPLOT_CLOSE_ALL, close_all)
+
+	// main_dlg test buttons
+	ON_BN_CLICKED(IDC_PLOT, &CMatPlotDlg::OnPlot)
+	ON_BN_CLICKED(IDC_FIGURE, &CMatPlotDlg::OnFigure)
+	ON_BN_CLICKED(IDC_CLOSE, &CMatPlotDlg::OnClose)
+	ON_BN_CLICKED(IDC_CLOSE_ALL, &CMatPlotDlg::OnCloseAll)
+	ON_BN_CLICKED(IDC_FIGURE_I, &CMatPlotDlg::OnFigureI)
+	ON_BN_CLICKED(IDC_SCATTER, &CMatPlotDlg::OnScatter)
+	ON_BN_CLICKED(IDC_CLOSE_I, &CMatPlotDlg::OnCloseI)
+	ON_BN_CLICKED(IDC_CLF, &CMatPlotDlg::OnClf)
+	ON_BN_CLICKED(IDC_AXIS, &CMatPlotDlg::OnAxis)
+	ON_BN_CLICKED(IDC_AUTOAXIS, &CMatPlotDlg::OnAutoaxis)
+END_MESSAGE_MAP()
+
+BOOL CMatPlotDlg::OnInitDialog()
+{
+	CDialogEx::OnInitDialog();
+	axis_auto_check = (CButton*)GetDlgItem(IDC_AUTOAXIS);
+	return TRUE;
+}
+
+LRESULT CMatPlotDlg::figure(WPARAM wparam, LPARAM lparam)
+{
+	int FigNo = lparam;
+	if (FigNo < 0) //No argument, create new figure
+	{
+		++NFig;
+		CurrentFig = NFig - 1;
+		SetDlgItemInt(IDC_CURRENTFIG, CurrentFig);
+		CString num;
+		num.Format(_T("figure%d"), CurrentFig + 1);
+		FigList.push_back(new CPlot);
+		CPlot *pPlot = FigList[CurrentFig];
+		pPlot->Create(IDD_PLOT);
+		pPlot->ShowWindow(SW_SHOW);
+		pPlot->SetWindowTextW(num);
+		SetDlgAxis(pPlot->axis_xmin, pPlot->axis_xmax,
+			pPlot->axis_ymin, pPlot->axis_ymax);
+		axis_auto_check->SetCheck(1);
+		return 0;//CurrentFig;
+	}
+	else //set current figure, or create if closed
+	{
+		CurrentFig = FigNo;
+		SetDlgItemInt(IDC_CURRENTFIG, CurrentFig);
+		CPlot *pPlot = FigList[CurrentFig];
+		if ((int)pPlot->m_hWnd == 0) // dlg closed
+		{
+			CString num;
+			num.Format(_T("figure%d"), CurrentFig + 1);
+			pPlot->Create(IDD_PLOT);
+			pPlot->ShowWindow(SW_SHOW);
+			pPlot->SetWindowTextW(num);
+		}
+		SetDlgAxis(pPlot->axis_xmin, pPlot->axis_xmax,
+			pPlot->axis_ymin, pPlot->axis_ymax);
+		if (pPlot->autoaxis)
+			axis_auto_check->SetCheck(1);
+		else
+			axis_auto_check->SetCheck(0);
+		return 0;
+	}
+}
+
+// close the current figure, or a selected figure.
+LRESULT CMatPlotDlg::close(WPARAM wparam, LPARAM lparam)
+{
+	int FigNo = lparam;
+	if (FigNo < 0)
+	{
+		FigList[CurrentFig]->EndDialog(0);
+		--CurrentFig;
+		SetDlgItemInt(IDC_CURRENTFIG, CurrentFig);
+	}
+	else
+		FigList[FigNo]->EndDialog(0);
+	return 0;
+}
+
+// close all figures.
+LRESULT CMatPlotDlg::close_all(WPARAM wparam, LPARAM lparam)
+{
+	for (int i = 0; i < NFig; i++)
+		FigList[i]->EndDialog(0);
+	return 0;
+}
+
+LRESULT CMatPlotDlg::plot(WPARAM wparam, LPARAM lparam)
+{
+	Plot_Param *ptr = (Plot_Param *)lparam;
+	CPlot *pPlot = FigList[CurrentFig];
+	pPlot->plot(ptr->px, ptr->py, ptr->N, ptr->color);
+	if (pPlot->autoaxis)
+	{
+		SetDlgAxis(pPlot->axis_xmin, pPlot->axis_xmax,
+			pPlot->axis_ymin, pPlot->axis_ymax);
+	}
+	return 0;
+}
+
+LRESULT CMatPlotDlg::scatter(WPARAM wparam, LPARAM lparam)
+{
+	CPlot *pPlot = FigList[CurrentFig];
+	Plot_Param *ptr = (Plot_Param *)lparam;
+	pPlot->scatter(ptr->px, ptr->py, ptr->N, ptr->color);
+	if (pPlot->autoaxis)
+	{
+		SetDlgAxis(pPlot->axis_xmin, pPlot->axis_xmax,
+			pPlot->axis_ymin, pPlot->axis_ymax);
+	}
+	return 0;
+}
+
+LRESULT CMatPlotDlg::clf(WPARAM wparam, LPARAM lparam)
+{
+	CPlot *pPlot = FigList[CurrentFig];
+	pPlot->clf();
+	SetDlgAxis(pPlot->axis_xmin, pPlot->axis_xmax,
+		pPlot->axis_ymin, pPlot->axis_ymax);
+	return 0;
+}
+
+LRESULT CMatPlotDlg::axis(WPARAM wparam, LPARAM lparam)
+{
+	Axis_Param *ptr = (Axis_Param *)lparam;
+	if (wparam == 0) // message from function
+	{
+		CPlot *pPlot = FigList[CurrentFig];
+		pPlot->axis(ptr->xmin, ptr->xmax, ptr->ymin, ptr->ymax);
+		SetDlgAxis(pPlot->axis_xmin, pPlot->axis_xmax,
+			pPlot->axis_ymin, pPlot->axis_ymax);
+	}
+	else // message from dialog
+		FigList[CurrentFig]->axis(ptr->xmin, ptr->xmax, ptr->ymin, ptr->ymax);
+	return 0;
+}
+
+LRESULT CMatPlotDlg::axis_auto(WPARAM wparam, LPARAM lparam)
+{
+	FigList[CurrentFig]->autoaxis = true;
+	axis_auto_check->SetCheck(1);
+	return 0;
+}
+
+LRESULT CMatPlotDlg::axis_manual(WPARAM wparam, LPARAM lparam)
+{
+	FigList[CurrentFig]->autoaxis = false;
+	axis_auto_check->SetCheck(0);
+	return 0;
+}
+
+LRESULT CMatPlotDlg::hide_control(WPARAM wparam, LPARAM lparam)
+{
+	ShowWindow(SW_HIDE);
+	UpdateWindow();
+	return 0;
+}
+
+LRESULT CMatPlotDlg::show_control(WPARAM wparam, LPARAM lparam)
+{
+	ShowWindow(SW_SHOW);
+	UpdateWindow();
+	return 0;
+}
+
+void CMatPlotDlg::SetDlgAxis(const double &xmin, const double &xmax,
+	const double &ymin, const double &ymax)
+{
+	CString num;
+	num.Format(_T("%1.2f"), xmin);
+	SetDlgItemText(IDC_XMIN, num);
+	num.Format(_T("%1.2f"), xmax);
+	SetDlgItemText(IDC_XMAX, num);
+	num.Format(_T("%1.2f"), ymin);
+	SetDlgItemText(IDC_YMIN, num);
+	num.Format(_T("%1.2f"), ymax);
+	SetDlgItemText(IDC_YMAX, num);
+}
+
+// main_dlg test buttons callback =============================
+
+void CMatPlotDlg::OnPlot()
+{
+	int N = 100;
+	const double pi = 3.141592653589793;
+	double *px = linspace(0., 2 * pi, N);
+	double *py{ new double[N] {} };
+
+	UpdateData();
+	for (int i{}; i < N; i++)
+		py[i] = DataNo * sin(px[i]);
+
+	Plot_Param param;
+	param.px = px; param.py = py; param.N = N; param.color = 'a';
+	SendMessage(MATPLOT_PLOT, 0, (LPARAM)&param);
+}
+
+void CMatPlotDlg::OnScatter()
+{
+	int N = 20;
+	const double pi = 3.141592653589793;
+	double *px = linspace(0., 2 * pi, N);
+	double *py{ new double[N] {} };
+
+	UpdateData();
+	for (int i{}; i < N; i++)
+		py[i] = DataNo * sin(px[i]);
+
+	Plot_Param param;
+	param.px = px; param.py = py; param.N = N; param.color = 'a';
+	SendMessage(MATPLOT_SCATTER, 0, (LPARAM)&param);
+}
+
+void CMatPlotDlg::OnFigure()
+{
+	SendMessage(MATPLOT_FIGURE, 0, -1);
+}
+
+void CMatPlotDlg::OnClose()
+{
+	SendMessage(MATPLOT_CLOSE, 0, -1);
+}
+
+void CMatPlotDlg::OnCloseAll()
+{
+	SendMessage(MATPLOT_CLOSE_ALL, 0, 0);
+}
+
+void CMatPlotDlg::OnFigureI()
+{
+	UpdateData();
+	SendMessage(MATPLOT_FIGURE, 0, FigNo);
+}
+
+void CMatPlotDlg::OnCloseI()
+{
+	UpdateData();
+	SendMessage(MATPLOT_CLOSE, 0, FigNo);
+}
+
+void CMatPlotDlg::OnClf()
+{
+	SendMessage(MATPLOT_CLF, 0, 0);
+}
+
+void CMatPlotDlg::OnAxis()
+{
+	UpdateData();
+	Axis_Param param;
+	param.xmin = edit_xmin;
+	param.xmax = edit_xmax;
+	param.ymin = edit_ymin;
+	param.ymax = edit_ymax;
+	SendMessage(MATPLOT_AXIS, 1, (LPARAM)&param);
+}
+
+void CMatPlotDlg::OnAutoaxis()
+{
+	int state = axis_auto_check->GetCheck(); // 1 is checked, 0 is unchecked
+	if (state == 1)
+		FigList[CurrentFig]->autoaxis = true;
+	else
+		FigList[CurrentFig]->autoaxis = false;
+}
