@@ -9,6 +9,9 @@ int main()
 	double y[5]{ 1,3,2,4,3 };
 	int N{ 5 };
 	MatPlotInit();
+	figure();
+	figure();
+	figure();
 	plot(x, y, N);
 	Sleep(60000);
 	MatPlotClose();

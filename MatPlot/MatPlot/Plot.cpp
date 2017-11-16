@@ -17,7 +17,7 @@ CPlot::CPlot(CWnd* pParent)
 	, axis_xmin{ 0 }, axis_ymin{ 0 }
 	, axis_xmax{ 1 }, axis_ymax{ 1 }
 	, isempty{ true }, autoaxis{ true }
-	, ColorNo{ -1 }
+	, ColorNo{ -1 }, OnSizeNo{}
 {
 	default_colors[0] = RGB(0, 113, 189);
 	default_colors[1] = RGB(222, 81, 24);
@@ -457,10 +457,9 @@ void CPlot::OnSizing(UINT fwSide, LPRECT pRect)
 void CPlot::OnSize(UINT nType, int cx, int cy)
 {
 	// need to skip the first time because the dialog has not been created yet.
-	static int N = 0;
 	CDialogEx::OnSize(nType, cx, cy);
-	if (N < 1)
-		++N;
+	if (OnSizeNo < 1)
+		++OnSizeNo;
 	else if (nType == SIZE_RESTORED)
 		update();
 }

@@ -29,7 +29,10 @@ void main()
 		
 	cout << "MatPlotInit()" << endl;
 	MatPlotInit();
-	Sleep(2000);
+	Sleep(1000);
+	figure();
+	figure();
+	Sleep(60000);
 
 	cout << "show_control()" << endl;
 	show_control();

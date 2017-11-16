@@ -61,6 +61,7 @@ public:
 	int ColorNo; // the index of default_colors.
 	HWND parent; // m_hWnd of the parent dialog
 	int FigNo; // the figure number of this figure
+	int OnSizeNo; // the # of times OnSize() is called
 
 	// all plot data
 	vector<double*> PlotXList;
