@@ -93,8 +93,7 @@ BOOL CMatPlotDlg::OnInitDialog()
 LRESULT CMatPlotDlg::figure(WPARAM wparam, LPARAM lparam)
 {
 	int FigNo = (int)lparam;
-	if (FigNo < 0) //No argument, create new figure
-	{
+	if (FigNo < 0) { //No argument, create new figure
 		++NFig;
 		CurrentFig = NFig - 1;
 		SetDlgItemInt(IDC_CURRENTFIG, CurrentFig);
@@ -116,18 +115,15 @@ LRESULT CMatPlotDlg::figure(WPARAM wparam, LPARAM lparam)
 		axis_auto_check->SetCheck(1);
 		return 0;//CurrentFig;
 	}
-	else //set current figure, or create if closed
-	{
-		if (NFig < FigNo + 1)
-		{
+	else { //set current figure, or create if closed
+		if (NFig < FigNo + 1) {
 			NFig = FigNo + 1;
 			FigList.resize(NFig, nullptr);
 		}
 		CurrentFig = FigNo;
 		SetDlgItemInt(IDC_CURRENTFIG, CurrentFig);
 		CPlot *pPlot = FigList[CurrentFig];
-		if (!pPlot) // dlg closed
-		{
+		if (!pPlot) { // dlg closed
 			CString num;
 			num.Format(_T("figure%d"), CurrentFig + 1);
 			FigList[CurrentFig] = new CPlot;
@@ -156,8 +152,7 @@ LRESULT CMatPlotDlg::figure(WPARAM wparam, LPARAM lparam)
 LRESULT CMatPlotDlg::close(WPARAM wparam, LPARAM lparam)
 {
 	int FigNo = (int)lparam;
-	if (FigNo < 0)
-	{
+	if (FigNo < 0) {
 		if (CurrentFig > -1)
 			::SendMessage(FigList[CurrentFig]->m_hWnd, WM_CLOSE, 0, 0);
 		//FigList[CurrentFig]->EndDialog(0);
@@ -174,8 +169,7 @@ LRESULT CMatPlotDlg::figure_close(WPARAM wparam, LPARAM lparam)
 	FigNo = (int)lparam;
 	FigList[FigNo] = nullptr;
 	int NextFig = SearchOpenFig(FigNo);
-	if (NextFig < 0 || CurrentFig == FigNo)
-	{
+	if (NextFig < 0 || CurrentFig == FigNo) {
 		CurrentFig = NextFig;
 		SetDlgItemInt(IDC_CURRENTFIG, CurrentFig);
 	}
@@ -185,8 +179,7 @@ LRESULT CMatPlotDlg::figure_close(WPARAM wparam, LPARAM lparam)
 // close all figures.
 LRESULT CMatPlotDlg::close_all(WPARAM wparam, LPARAM lparam)
 {
-	for (int i = 0; i < NFig; i++)
-	{
+	for (int i = 0; i < NFig; i++) {
 		CPlot *pPlot = FigList[i];
 		if (pPlot) // not null and not destroyed
 			::SendMessage(pPlot->m_hWnd, WM_CLOSE, 0, 0);
@@ -203,8 +196,7 @@ LRESULT CMatPlotDlg::plot(WPARAM wparam, LPARAM lparam)
 	Plot_Param *ptr = (Plot_Param *)lparam;
 	CPlot *pPlot = FigList[CurrentFig];
 	pPlot->plot(ptr->px, ptr->py, ptr->N, ptr->color);
-	if (pPlot->autoaxis)
-	{
+	if (pPlot->autoaxis) {
 		SetDlgAxis(pPlot->axis_xmin, pPlot->axis_xmax,
 			pPlot->axis_ymin, pPlot->axis_ymax);
 		SetDlgTicksX(pPlot->xtickmin, pPlot->xtickmax, pPlot->Nxticks,
@@ -217,15 +209,13 @@ LRESULT CMatPlotDlg::plot(WPARAM wparam, LPARAM lparam)
 
 LRESULT CMatPlotDlg::scatter(WPARAM wparam, LPARAM lparam)
 {
-	if (CurrentFig < 0) // no figure, create one
-	{
+	if (CurrentFig < 0) { // no figure, create one
 		SendMessage(MATPLOT_FIGURE, 0, 0);
 	}
 	CPlot *pPlot = FigList[CurrentFig];
 	Plot_Param *ptr = (Plot_Param *)lparam;
 	pPlot->scatter(ptr->px, ptr->py, ptr->N, ptr->color);
-	if (pPlot->autoaxis)
-	{
+	if (pPlot->autoaxis) {
 		SetDlgAxis(pPlot->axis_xmin, pPlot->axis_xmax,
 			pPlot->axis_ymin, pPlot->axis_ymax);
 		SetDlgTicksX(pPlot->xtickmin, pPlot->xtickmax, pPlot->Nxticks,
@@ -386,14 +376,12 @@ int CMatPlotDlg::SearchOpenFig(int FigNo)
 {
 	int i;
 	// forward search
-	for (i = FigNo + 1; i < NFig; i++)
-	{
+	for (i = FigNo + 1; i < NFig; i++) {
 		if (FigList[i])
 			return i;
 	}
 	// backward search
-	for (i = FigNo - 1; i >= 0; i--)
-	{
+	for (i = FigNo - 1; i >= 0; i--) {
 		if (FigList[i])
 			return i;
 	}
@@ -438,37 +426,23 @@ void CMatPlotDlg::OnScatter()
 	delete[] py;
 }
 
-void CMatPlotDlg::OnFigure()
-{
-	SendMessage(MATPLOT_FIGURE, 0, -1);
-}
+void CMatPlotDlg::OnFigure() { SendMessage(MATPLOT_FIGURE, 0, -1); }
 
-void CMatPlotDlg::OnClose()
-{
-	SendMessage(MATPLOT_CLOSE, 0, -1);
-}
+void CMatPlotDlg::OnClose() { SendMessage(MATPLOT_CLOSE, 0, -1); }
 
-void CMatPlotDlg::OnCloseAll()
-{
-	SendMessage(MATPLOT_CLOSE_ALL, 0, 0);
-}
+void CMatPlotDlg::OnCloseAll() { SendMessage(MATPLOT_CLOSE_ALL, 0, 0); }
 
-void CMatPlotDlg::OnFigureI()
-{
+void CMatPlotDlg::OnFigureI() {
 	UpdateData();
 	SendMessage(MATPLOT_FIGURE, 0, FigNo);
 }
 
-void CMatPlotDlg::OnCloseI()
-{
+void CMatPlotDlg::OnCloseI() {
 	UpdateData();
 	SendMessage(MATPLOT_CLOSE, 0, FigNo);
 }
 
-void CMatPlotDlg::OnClf()
-{
-	SendMessage(MATPLOT_CLF, 0, 0);
-}
+void CMatPlotDlg::OnClf() {	SendMessage(MATPLOT_CLF, 0, 0); }
 
 void CMatPlotDlg::OnAxis()
 {

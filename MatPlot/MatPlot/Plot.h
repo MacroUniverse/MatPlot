@@ -102,8 +102,7 @@ inline int* linspace(int var1, int var2, int N)
 inline double arraymax(double *px, int N)
 {
 	double maxval{ -1.7e308 };
-	for (int i = 0; i < N; i++)
-	{
+	for (int i = 0; i < N; i++) {
 		if (maxval < px[i])
 			maxval = px[i];
 	}
@@ -114,8 +113,7 @@ inline double arraymax(double *px, int N)
 inline double arraymin(double *px, int N)
 {
 	double minval{ 1.7e308 };
-	for (int i = 0; i < N; i++)
-	{
+	for (int i = 0; i < N; i++) {
 		if (minval > px[i])
 			minval = px[i];
 	}

@@ -78,10 +78,8 @@ BOOL CPlot::OnInitDialog()
 void CPlot::plot(double *px, double *py, int N, char color)
 {
 	COLORREF color0;
-	if (autoaxis)
-	{
-		if (isempty)
-		{
+	if (autoaxis) {
+		if (isempty) {
 			AutoResizeAxis(px, py, N);
 			update();
 			isempty = false;
@@ -117,8 +115,7 @@ void CPlot::plot0(double *px, double *py, int N, COLORREF color0)
 	ConvertCoord(x0, y0, px[0], py[0]);
 	pDC->MoveTo(x0, y0);
 
-	for (i = 1; i < N; i++)
-	{
+	for (i = 1; i < N; i++) {
 		ConvertCoord(x, y, px[i], py[i]);
 		pDC->LineTo(x, y);
 	}
@@ -128,10 +125,8 @@ void CPlot::plot0(double *px, double *py, int N, COLORREF color0)
 void CPlot::scatter(double *px, double *py, int N, char color)
 {
 	COLORREF color0;
-	if (autoaxis)
-	{
-		if (isempty)
-		{
+	if (autoaxis) {
+		if (isempty) {
 			AutoResizeAxis(px, py, N);
 			update();
 			isempty = false;
@@ -166,8 +161,7 @@ void CPlot::scatter0(double *px, double *py, int N, COLORREF color0)
 	aPen.CreatePen(PS_SOLID, 1, color0);
 	pDC->SelectObject(&aPen);
 
-	for (i = 0; i < N; i++)
-	{
+	for (i = 0; i < N; i++) {
 		ConvertCoord(x, y, px[i], py[i]);
 		pDC->MoveTo(x - len, y);
 		pDC->LineTo(x + len, y);
@@ -270,15 +264,13 @@ void CPlot::PlotAxes()
 	// plot x ticks
 	if (xticks) delete[] xticks;
 	xticks = linspace(xtick0, xtick1, Nxticks);
-	for (i = 0; i < Nxticks; i++)
-	{
+	for (i = 0; i < Nxticks; i++) {
 		pDC->MoveTo(xticks[i], axis_y0);
 		pDC->LineTo(xticks[i], axis_y0 - ticklen);
 		pDC->MoveTo(xticks[i], axis_y1);
 		pDC->LineTo(xticks[i], axis_y1 + ticklen);
 	}
-	for (i = xtxtstart; i < Nxticks; i += xtxtspace)
-	{
+	for (i = xtxtstart; i < Nxticks; i += xtxtspace) {
 		pDC->MoveTo(xticks[i], axis_y0);
 		pDC->LineTo(xticks[i], axis_y0 - ticklen1);
 		pDC->MoveTo(xticks[i], axis_y1);
@@ -287,15 +279,13 @@ void CPlot::PlotAxes()
 	// plot y ticks
 	if (yticks) delete[] yticks;
 	yticks = linspace(ytick0, ytick1, Nyticks);
-	for (i = 0; i < Nyticks; i++)
-	{
+	for (i = 0; i < Nyticks; i++) {
 		pDC->MoveTo(axis_x0, yticks[i]);
 		pDC->LineTo(axis_x0 + ticklen, yticks[i]);
 		pDC->MoveTo(axis_x1, yticks[i]);
 		pDC->LineTo(axis_x1 - ticklen, yticks[i]);
 	}
-	for (i = ytxtstart; i < Nyticks; i += ytxtspace)
-	{
+	for (i = ytxtstart; i < Nyticks; i += ytxtspace) {
 		pDC->MoveTo(axis_x0, yticks[i]);
 		pDC->LineTo(axis_x0 + ticklen1, yticks[i]);
 		pDC->MoveTo(axis_x1, yticks[i]);
@@ -325,8 +315,7 @@ void CPlot::PlotAxesText()
 	format.Format(_T("%%1.%df"), Nxdigits);
 	str_rc.top = axis_y0 + 10;
 	str_rc.bottom = str_rc.top + 20;
-	for (i = xtxtstart; i < Nxticks; i += xtxtspace)
-	{
+	for (i = xtxtstart; i < Nxticks; i += xtxtspace) {
 		str.Format(format, xtickmin + interv*i);
 		str_rc.left = xticks[i] - 25;
 		str_rc.right = str_rc.left + 50;
@@ -338,8 +327,7 @@ void CPlot::PlotAxesText()
 	str_rc.right = axis_x0 - 5;
 	str_rc.left = str_rc.right - 50;
 	
-	for (i = ytxtstart; i < Nyticks; i += ytxtspace)
-	{
+	for (i = ytxtstart; i < Nyticks; i += ytxtspace) {
 		str.Format(format, ytickmin + interv*i);
 		str_rc.top = yticks[i] - 8;
 		str_rc.bottom = str_rc.top + 20;
@@ -373,23 +361,19 @@ bool CPlot::AutoInflateAxis(double *px, double *py, int N)
 {
 	bool change = false;
 	double dtemp = arraymin(px, N);
-	if (axis_xmin > dtemp)
-	{
+	if (axis_xmin > dtemp) {
 		axis_xmin = dtemp; change = true;
 	}
 	dtemp = arraymax(px, N);
-	if (axis_xmax < dtemp)
-	{
+	if (axis_xmax < dtemp) {
 		axis_xmax = dtemp; change = true;
 	}
 	dtemp = arraymin(py, N);
-	if (axis_ymin > dtemp)
-	{
+	if (axis_ymin > dtemp) {
 		axis_ymin = dtemp; change = true;
 	}
 	dtemp = arraymax(py, N);
-	if (axis_ymax < dtemp)
-	{
+	if (axis_ymax < dtemp) {
 		axis_ymax = dtemp; change = true;
 	}
 	if (change)
@@ -401,24 +385,20 @@ bool CPlot::AutoInflateAxis(double *px, double *py, int N)
 void CPlot::AutoResizeAxis(double *px, double *py, int N)
 {
 	double L = 0.5;
-	if (N == 1)
-	{
+	if (N == 1) {
 
 		axis_xmin = px[0] - L; axis_xmax = px[0] + L;
 		axis_ymin = py[0] - L; axis_ymax = py[0] + L;
 	}
-	else
-	{
+	else {
 		axis_xmin = arraymin(px, N);
 		axis_xmax = arraymax(px, N);
 		axis_ymin = arraymin(py, N);
 		axis_ymax = arraymax(py, N);
-		if (axis_xmin == axis_xmax)
-		{
+		if (axis_xmin == axis_xmax) {
 			axis_xmin -= L; axis_xmax += L;
 		}
-		if (axis_ymin == axis_ymax)
-		{
+		if (axis_ymin == axis_ymax) {
 			axis_ymin -= L; axis_ymax += L;
 		}
 	}
@@ -428,8 +408,7 @@ void CPlot::AutoResizeAxis(double *px, double *py, int N)
 // define color symbol, same as Matlab
 COLORREF CPlot::SwitchColor(char color)
 {
-	switch (color)
-	{
+	switch (color) {
 	case 'a': // auto color rotation
 		++ColorNo; ColorNo %= 7;
 		return default_colors[ColorNo];
@@ -444,7 +423,6 @@ COLORREF CPlot::SwitchColor(char color)
 	default: return RGB(0, 0, 255);
 	}
 }
-
 
 // when user change size of figure
 void CPlot::OnSizing(UINT fwSide, LPRECT pRect)

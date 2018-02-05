@@ -22,18 +22,15 @@
 #define MATPLOT_XTICKS (WM_USER + 114)
 #define MATPLOT_YTICKS (WM_USER + 115)
 
-struct Plot_Param
-{
+struct Plot_Param {
 	double *px; double *py; int N; char color;
 };
 
-struct Axis_Param
-{
+struct Axis_Param {
 	double xmin; double xmax; double ymin; double ymax;
 };
 
-struct Tick_Param
-{
+struct Tick_Param {
 	double tickmin; double tickmax; int Nticks; 
 	int txtstart; int txtspace; int Ndigits;
 };
