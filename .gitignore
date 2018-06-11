@@ -1,5 +1,4 @@
-MatPlot/.vs/MatPlot/v15/ipch/
-MatPlot/.vs/MatPlot/v15/Browse.VC.db
+MatPlot/.vs/
 MatPlot/Debug/
 MatPlot/Release/
 MatPlot/x64/
@@ -7,8 +6,7 @@ MatPlot/MatPlot/Debug/
 MatPlot/MatPlot/Release/
 MatPlot/MatPlot/x64/
 
-MatPlotClient/.vs/MatPlotClient/v15/ipch/
-MatPlotClient/.vs/MatPlotClient/v15/Browse.VC.db
+MatPlotClient/.vs/
 MatPlotClient/Debug/
 MatPlotClient/Release/
 MatPlotClient/x64/
@@ -16,11 +14,12 @@ MatPlotClient/MatPlotClient/Debug/
 MatPlotClient/MatPlotClient/Release/
 MatPlotClient/MatPlotClient/x64/
 
-MatPlotTest/.vs/MatPlotTest/v15/ipch/
-MatPlotTest/.vs/MatPlotTest/v15/Browse.VC.db
+MatPlotTest/.vs/
 MatPlotTest/Debug/
 MatPlotTest/Release/
 MatPlotTest/x64/
 MatPlotTest/MatPlotTest/Debug/
 MatPlotTest/MatPlotTest/Release/
 MatPlotTest/MatPlotTest/x64/
+
+*.user
