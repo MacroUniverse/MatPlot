@@ -99,27 +99,8 @@ int main()
 ```
 ![ex2_plot](img/ex2_plot.png)
 
-We can see that the arrangement of ticks in the x axis is not reasonable. We can you `xticks()` function to rearrange. Uncomment the line<br>
+We can see that the arrangement of ticks in the x axis is not reasonable. We can use `xticks()` function to rearrange. Uncomment the line<br>
 `xticks(0, 6.2, 32, 0, 5, 1);`<br>
 to set the minimum tick to 0, the maximum tick to 6.2, with a total of 32 ticks. From the first tick, print a coordinate every 5 ticks, and round to the first decimal number. The resulting plot is
 
 ![ex2_mod](img/ex2_mod.png)
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
